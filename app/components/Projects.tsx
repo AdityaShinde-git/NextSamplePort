@@ -37,7 +37,7 @@ const Projects = () => {
         >
           <img src={project.image} alt={project.title} className="rounded-md mb-3" />
           <h3 className="text-xl font-semibold">{project.title}</h3>
-          <p className="text-sm text-gray-200">{truncateText(project.description, 20)}</p>
+          <p className=" text-gray-700 text-sm dark:text-gray-200">{truncateText(project.description, 20)}</p>
         </Link>
       ))}
      
