@@ -2,18 +2,28 @@
 
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import portfolioData from "@/app/data/data"; // Adjust if needed
+import portfolioData from "@/app/data/data"; // Correct import for your data
 
-export default async function ProjectDetail({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params; // ✅ No await — params is not a promise
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+// Since params is an async value, mark the function as async to handle it
+export default async function ProjectDetail({ params }: PageProps) {
+  // Await the params.id before proceeding to fetch the project
+  const { id } = await params;
+
+  // Make sure that the id is valid
+  if (!id || typeof id !== "string") {
+    return notFound();
+  }
 
   const projects = portfolioData.projects;
   const index = projects.findIndex((project) => project.id === id);
 
+  // If the project doesn't exist, return 404
   if (index === -1) return notFound();
 
   const project = projects[index];
@@ -32,33 +42,20 @@ export default async function ProjectDetail({
 
       <div className="mt-10 flex justify-between text-blue-600 font-medium">
         {prevProject ? (
-          <Link
-            href={`/projects/${prevProject.id}`}
-            className="hover:underline text-black dark:text-white"
-          >
+          <Link href={`/projects/${prevProject.id}`} className="hover:underline text-black dark:text-white">
             ← {prevProject.title}
           </Link>
-        ) : (
-          <div />
-        )}
-
+        ) : <div />}
+        
         {nextProject ? (
-          <Link
-            href={`/projects/${nextProject.id}`}
-            className="hover:underline text-black dark:text-white"
-          >
+          <Link href={`/projects/${nextProject.id}`} className="hover:underline text-black dark:text-white">
             {nextProject.title} →
           </Link>
-        ) : (
-          <div />
-        )}
+        ) : <div />}
       </div>
 
       <div className="fixed top-3 left-3 text-sm text-blue-500">
-        <Link
-          href="/#projects"
-          className="hover:underline text-black dark:text-white"
-        >
+        <Link href="/#projects" className="hover:underline text-black dark:text-white">
           ← Back to all projects
         </Link>
       </div>
