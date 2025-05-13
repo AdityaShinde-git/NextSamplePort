@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import portfolioData from "@/app/data/data"; // Correct import for your data
+import portfolioData from "@/data/data";
 
 interface PageProps {
   params: {

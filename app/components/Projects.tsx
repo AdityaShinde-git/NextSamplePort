@@ -1,7 +1,7 @@
 // components/Projects.tsx
 
 import Link from "next/link";
-import portfolioData from "@/app/data/data";
+import portfolioData from "@/data/data";
 import ProjectCard from "./ProjectCard";
 
 const Projects = () => {
