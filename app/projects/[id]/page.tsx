@@ -2,33 +2,24 @@
 
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import portfolioData from "@/data/data";
+import portfolioData from "@/data/data"; // ✅ Use alias
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
 export async function generateStaticParams() {
   return portfolioData.projects.map((project) => ({
     id: project.id,
   }));
 }
 
-// Since params is an async value, mark the function as async to handle it
-export default async function ProjectDetail({ params }: PageProps) {
-  // Await the params.id before proceeding to fetch the project
-  const { id } = await params;
-
-  // Make sure that the id is valid
-  if (!id || typeof id !== "string") {
-    return notFound();
-  }
+export default async function ProjectDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
 
   const projects = portfolioData.projects;
   const index = projects.findIndex((project) => project.id === id);
 
-  // If the project doesn't exist, return 404
   if (index === -1) return notFound();
 
   const project = projects[index];
@@ -51,7 +42,7 @@ export default async function ProjectDetail({ params }: PageProps) {
             ← {prevProject.title}
           </Link>
         ) : <div />}
-        
+
         {nextProject ? (
           <Link href={`/projects/${nextProject.id}`} className="hover:underline text-black dark:text-white">
             {nextProject.title} →
