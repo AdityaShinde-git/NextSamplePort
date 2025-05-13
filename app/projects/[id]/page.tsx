@@ -9,6 +9,11 @@ interface PageProps {
     id: string;
   };
 }
+export async function generateStaticParams() {
+  return portfolioData.projects.map((project) => ({
+    id: project.id,
+  }));
+}
 
 // Since params is an async value, mark the function as async to handle it
 export default async function ProjectDetail({ params }: PageProps) {
